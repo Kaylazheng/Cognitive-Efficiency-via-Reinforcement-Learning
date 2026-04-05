@@ -3,26 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cognitive Efficiency via Adaptive Memory Decay</title>
+  <title>Adaptive Memory Decay Browser</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #0b1020;
-      --bg-soft: #121933;
-      --card: rgba(255,255,255,0.08);
-      --card-strong: rgba(255,255,255,0.12);
-      --text: #f5f7ff;
-      --muted: #bcc6e0;
+      --bg: #091224;
+      --bg-2: #101b33;
+      --panel: rgba(255,255,255,0.08);
+      --panel-2: rgba(255,255,255,0.06);
       --line: rgba(255,255,255,0.12);
+      --text: #eef2ff;
+      --muted: #bac4df;
       --accent: #7c9cff;
-      --accent-2: #4ee0c1;
-      --accent-3: #ffb86c;
-      --danger: #ff6b81;
-      --shadow: 0 18px 50px rgba(0,0,0,0.28);
-      --radius: 22px;
+      --accent-2: #63e6be;
+      --accent-3: #ffb86b;
+      --danger: #ff7a90;
+      --shadow: 0 18px 45px rgba(0,0,0,0.28);
+      --radius: 24px;
       --max: 1180px;
     }
 
@@ -34,11 +34,11 @@
     body {
       margin: 0;
       font-family: "Inter", sans-serif;
+      color: var(--text);
       background:
         radial-gradient(circle at top left, rgba(124,156,255,0.18), transparent 30%),
-        radial-gradient(circle at top right, rgba(78,224,193,0.12), transparent 25%),
-        linear-gradient(180deg, #08101f 0%, #0b1020 50%, #111a2f 100%);
-      color: var(--text);
+        radial-gradient(circle at right top, rgba(99,230,190,0.14), transparent 25%),
+        linear-gradient(180deg, #08101f 0%, #0b1223 45%, #101b33 100%);
       line-height: 1.6;
     }
 
@@ -55,18 +55,19 @@
     .nav {
       position: sticky;
       top: 0;
-      z-index: 999;
+      z-index: 1000;
       backdrop-filter: blur(14px);
-      background: rgba(10, 15, 30, 0.72);
+      background: rgba(7, 12, 26, 0.78);
       border-bottom: 1px solid var(--line);
     }
 
     .nav-inner {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 16px 0;
+      align-items: center;
       gap: 20px;
+      padding: 16px 0;
+      flex-wrap: wrap;
     }
 
     .brand {
@@ -75,6 +76,7 @@
       gap: 12px;
       font-weight: 800;
       letter-spacing: -0.03em;
+      font-size: 1.05rem;
     }
 
     .brand-badge {
@@ -84,20 +86,83 @@
       display: grid;
       place-items: center;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: white;
-      font-size: 1.1rem;
       box-shadow: var(--shadow);
+      font-size: 1.15rem;
+    }
+
+    .top-controls {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .browser-toggle {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--line);
+      color: white;
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 54px;
+      height: 30px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      background: rgba(255,255,255,0.2);
+      border-radius: 999px;
+      transition: 0.3s ease;
+    }
+
+    .slider:before {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      left: 4px;
+      top: 4px;
+      border-radius: 50%;
+      background: white;
+      transition: 0.3s ease;
+    }
+
+    .switch input:checked + .slider {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    }
+
+    .switch input:checked + .slider:before {
+      transform: translateX(24px);
     }
 
     .nav-links {
       display: flex;
-      gap: 18px;
+      gap: 16px;
       flex-wrap: wrap;
     }
 
     .nav-links a {
       color: var(--muted);
-      font-size: 0.96rem;
+      font-size: 0.95rem;
       transition: 0.25s ease;
     }
 
@@ -106,13 +171,13 @@
     }
 
     .hero {
-      padding: 78px 0 56px;
+      padding: 72px 0 48px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 36px;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 34px;
       align-items: center;
     }
 
@@ -120,28 +185,48 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      padding: 9px 14px;
-      border: 1px solid var(--line);
+      padding: 8px 14px;
       border-radius: 999px;
+      border: 1px solid var(--line);
       background: rgba(255,255,255,0.06);
       color: var(--muted);
-      font-size: 0.9rem;
       margin-bottom: 18px;
+      font-size: 0.9rem;
     }
 
     h1 {
-      font-size: clamp(2.3rem, 4vw, 4.6rem);
-      line-height: 1.05;
       margin: 0 0 18px;
+      font-size: clamp(2.4rem, 4.4vw, 4.8rem);
+      line-height: 1.03;
       letter-spacing: -0.05em;
     }
 
     .hero p {
+      margin: 0 0 28px;
       color: var(--muted);
       font-size: 1.08rem;
       max-width: 760px;
-      margin-bottom: 28px;
     }
+
+.illustration {
+  width: 300px;
+  max-width: 100%;
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+.figure {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.caption {
+  font-size: 0.85rem;
+  color: #aab3c9;
+  margin-top: 6px;
+  font-style: italic;
+}
 
     .cta-row {
       display: flex;
@@ -151,12 +236,12 @@
 
     .btn {
       border: none;
-      border-radius: 14px;
-      padding: 14px 20px;
-      font-weight: 700;
       cursor: pointer;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+      font-weight: 700;
       font-family: inherit;
+      padding: 14px 20px;
+      border-radius: 14px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
     }
 
     .btn:hover {
@@ -165,7 +250,7 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent), #a58bff);
+      background: linear-gradient(135deg, var(--accent), #9b8cff);
       color: white;
     }
 
@@ -175,29 +260,39 @@
       border: 1px solid var(--line);
     }
 
-    .hero-card {
+    .hero-card,
+    .section-box,
+    .interactive-box,
+    .card,
+    .timeline-step,
+    .impact-card,
+    .risk-card {
       background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.05));
       border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: 24px;
+      border-radius: var(--radius);
       box-shadow: var(--shadow);
-      position: relative;
+    }
+
+    .hero-card {
+      padding: 22px;
       overflow: hidden;
+      position: relative;
     }
 
     .hero-card::after {
       content: "";
       position: absolute;
-      inset: auto -40px -40px auto;
-      width: 160px;
-      height: 160px;
-      background: radial-gradient(circle, rgba(124,156,255,0.35), transparent 70%);
+      right: -35px;
+      bottom: -35px;
+      width: 170px;
+      height: 170px;
       border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,156,255,0.35), transparent 70%);
     }
 
     .mini-window {
-      background: rgba(8,12,24,0.8);
-      border-radius: 18px;
+      background: rgba(7, 12, 26, 0.72);
+      border-radius: 20px;
       border: 1px solid rgba(255,255,255,0.08);
       padding: 16px;
     }
@@ -212,53 +307,52 @@
       width: 11px;
       height: 11px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.28);
+      background: rgba(255,255,255,0.25);
     }
 
-    .workspace-columns {
+    .workspace-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
     }
 
-    .mock-panel {
+    .panel {
       background: rgba(255,255,255,0.04);
-      border-radius: 16px;
-      padding: 14px;
+      border-radius: 18px;
       border: 1px solid rgba(255,255,255,0.06);
+      padding: 14px;
     }
 
-    .mock-panel h4 {
-      margin: 0 0 12px;
-      font-size: 0.95rem;
-      color: white;
+    .panel h4 {
+      margin: 0 0 10px;
+      font-size: 0.96rem;
     }
 
     .item {
       display: flex;
       justify-content: space-between;
+      gap: 12px;
       align-items: center;
-      gap: 10px;
       padding: 10px 12px;
-      background: rgba(255,255,255,0.05);
-      border-radius: 12px;
       margin-bottom: 10px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
       color: var(--muted);
       font-size: 0.92rem;
     }
 
-    .pill {
-      font-size: 0.75rem;
-      border-radius: 999px;
+    .tag-pill {
       padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
       font-weight: 700;
       color: white;
     }
 
-    .active { background: linear-gradient(135deg, var(--accent), #8b72ff); }
-    .fade { background: linear-gradient(135deg, #6b7280, #4b5563); }
-    .archive { background: linear-gradient(135deg, var(--accent-2), #259b85); }
-    .trim { background: linear-gradient(135deg, var(--danger), #ff8f70); }
+    .active { background: linear-gradient(135deg, var(--accent), #9581ff); }
+    .dimmed { background: linear-gradient(135deg, #64748b, #475569); }
+    .archived { background: linear-gradient(135deg, var(--accent-2), #2e9f8c); }
+    .pruned { background: linear-gradient(135deg, var(--danger), #ff9a6b); }
 
     section {
       padding: 34px 0;
@@ -269,28 +363,30 @@
     }
 
     .section-heading .tag {
+      display: inline-block;
       color: var(--accent-2);
+      font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.18em;
       font-weight: 800;
-      font-size: 0.75rem;
       margin-bottom: 10px;
-      display: inline-block;
     }
 
     .section-heading h2 {
       margin: 0 0 10px;
-      font-size: clamp(1.7rem, 2.5vw, 2.8rem);
+      font-size: clamp(1.75rem, 2.6vw, 2.8rem);
       letter-spacing: -0.04em;
     }
 
     .section-heading p {
       margin: 0;
       color: var(--muted);
-      max-width: 800px;
+      max-width: 820px;
     }
 
-    .grid-3, .grid-4, .grid-2 {
+    .grid-2,
+    .grid-3,
+    .grid-4 {
       display: grid;
       gap: 20px;
     }
@@ -300,17 +396,15 @@
     .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
     .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
       padding: 22px;
-      box-shadow: var(--shadow);
       transition: transform 0.25s ease, background 0.25s ease;
     }
 
-    .card:hover {
+    .card:hover,
+    .impact-card:hover,
+    .risk-card:hover {
       transform: translateY(-4px);
-      background: var(--card-strong);
+      background: linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.06));
     }
 
     .icon {
@@ -320,40 +414,36 @@
       display: grid;
       place-items: center;
       font-size: 1.2rem;
-      background: linear-gradient(135deg, rgba(124,156,255,0.25), rgba(78,224,193,0.2));
       margin-bottom: 14px;
+      background: linear-gradient(135deg, rgba(124,156,255,0.24), rgba(99,230,190,0.2));
     }
 
-    .card h3 {
+    .card h3,
+    .impact-card h3,
+    .risk-card h3 {
       margin: 0 0 10px;
-      font-size: 1.1rem;
+      font-size: 1.08rem;
     }
 
-    .card p, .card li {
+    .card p,
+    .impact-card p,
+    .risk-card p,
+    .card li {
       color: var(--muted);
       font-size: 0.97rem;
     }
 
-    .feature-list {
-      padding-left: 18px;
-      margin: 10px 0 0;
-    }
-
-    .process {
+    .timeline {
       display: grid;
       gap: 18px;
     }
 
-    .step {
+    .timeline-step {
+      padding: 20px;
       display: grid;
-      grid-template-columns: 76px 1fr;
+      grid-template-columns: 70px 1fr;
       gap: 18px;
       align-items: start;
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 20px;
-      box-shadow: var(--shadow);
     }
 
     .step-num {
@@ -363,26 +453,48 @@
       display: grid;
       place-items: center;
       font-weight: 800;
-      font-size: 1.1rem;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
     }
 
-    .interactive-box {
-      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.05));
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: 24px;
-      box-shadow: var(--shadow);
-    }
-
-    .controls {
+    .tab-row {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
       margin-bottom: 18px;
     }
 
-    .meter-wrap {
+    .tab-btn {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border-radius: 999px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-weight: 700;
+      font-family: inherit;
+      transition: 0.2s ease;
+    }
+
+    .tab-btn.active-tab {
+      background: linear-gradient(135deg, var(--accent), #8f7cff);
+      border-color: transparent;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active-panel {
+      display: block;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .interactive-box {
+      padding: 24px;
+      transition: opacity 0.3s ease, filter 0.3s ease;
+    }
+
+    .interactive-grid {
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
       gap: 22px;
@@ -391,19 +503,19 @@
 
     .meter {
       height: 18px;
-      background: rgba(255,255,255,0.08);
       border-radius: 999px;
       overflow: hidden;
-      margin: 14px 0 12px;
       border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.08);
+      margin: 14px 0 12px;
     }
 
     .meter-bar {
       height: 100%;
-      width: 78%;
+      width: 74%;
       border-radius: 999px;
-      background: linear-gradient(90deg, #61dafb, var(--accent), #a58bff);
-      transition: width 0.45s ease;
+      background: linear-gradient(90deg, #65d6ff, var(--accent), #a58cff);
+      transition: width 0.4s ease;
     }
 
     .status-note {
@@ -419,9 +531,9 @@
 
     .decision {
       background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 18px;
       padding: 16px;
-      border: 1px solid rgba(255,255,255,0.08);
     }
 
     .decision strong {
@@ -429,41 +541,8 @@
       margin-bottom: 6px;
     }
 
-    .tab-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 18px;
-    }
-
-    .tab-btn {
-      background: rgba(255,255,255,0.08);
-      color: white;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 10px 16px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: 0.2s ease;
-    }
-
-    .tab-btn.active-tab {
-      background: linear-gradient(135deg, var(--accent), #8b72ff);
-      border-color: transparent;
-    }
-
-    .tab-panel {
-      display: none;
-    }
-
-    .tab-panel.active-panel {
-      display: block;
-      animation: fadeIn 0.4s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+    .summary-box {
+      padding: 22px;
     }
 
     .compare-table {
@@ -475,10 +554,10 @@
 
     .compare-table th,
     .compare-table td {
-      padding: 16px;
-      border: 1px solid var(--line);
       text-align: left;
       vertical-align: top;
+      padding: 15px;
+      border: 1px solid var(--line);
     }
 
     .compare-table th {
@@ -487,8 +566,13 @@
     }
 
     .compare-table td {
-      color: var(--muted);
       background: rgba(255,255,255,0.04);
+      color: var(--muted);
+    }
+
+    .impact-card,
+    .risk-card {
+      padding: 22px;
     }
 
     .accordion {
@@ -497,34 +581,35 @@
     }
 
     .accordion-item {
-      border-radius: 20px;
       overflow: hidden;
+      border-radius: 20px;
       border: 1px solid var(--line);
-      background: var(--card);
+      background: rgba(255,255,255,0.07);
       box-shadow: var(--shadow);
     }
 
     .accordion-header {
       width: 100%;
-      text-align: left;
+      border: none;
       background: transparent;
       color: white;
-      padding: 18px 20px;
-      border: none;
-      cursor: pointer;
       font-size: 1rem;
       font-weight: 700;
+      text-align: left;
+      padding: 18px 20px;
+      cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-family: inherit;
     }
 
     .accordion-content {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.35s ease;
-      color: var(--muted);
       padding: 0 20px;
+      color: var(--muted);
     }
 
     .accordion-content p,
@@ -534,53 +619,43 @@
     }
 
     .footer {
-      padding: 40px 0 60px;
-      color: var(--muted);
+      padding: 44px 0 60px;
       text-align: center;
+      color: var(--muted);
+      font-size: 0.93rem;
     }
 
-    .footer-note {
-      font-size: 0.92rem;
-      opacity: 0.88;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @media (max-width: 980px) {
       .hero-grid,
+      .workspace-layout,
       .grid-2,
       .grid-3,
       .grid-4,
-      .meter-wrap,
-      .workspace-columns {
+      .interactive-grid {
         grid-template-columns: 1fr;
       }
 
-      .step {
+      .timeline-step {
         grid-template-columns: 1fr;
       }
 
-      .nav-inner {
-        flex-direction: column;
-        align-items: flex-start;
+      .top-controls {
+        justify-content: flex-start;
       }
     }
 
     @media (max-width: 640px) {
       h1 {
-        font-size: 2.3rem;
-      }
-
-      .hero {
-        padding-top: 48px;
+        font-size: 2.35rem;
       }
 
       .decision-grid {
         grid-template-columns: 1fr;
-      }
-
-      .compare-table th,
-      .compare-table td {
-        padding: 12px;
-        font-size: 0.92rem;
       }
     }
   </style>
@@ -593,22 +668,22 @@
         <div>Adaptive Memory Decay Browser</div>
       </div>
 
-  <div class="top-controls">
-    <div class="browser-toggle">
-      <span id="toggleLabel">Adaptive Mode: ON</span>
-      <label class="switch">
-        <input type="checkbox" id="browserSwitch" checked onchange="toggleBrowserMode()">
-        <span class="slider"></span>
-      </label>
-    </div>
+      <div class="top-controls">
+        <div class="browser-toggle">
+          <span id="toggleLabel">Adaptive Mode: ON</span>
+          <label class="switch">
+            <input type="checkbox" id="browserSwitch" checked onchange="toggleBrowserMode()">
+            <span class="slider"></span>
+          </label>
+        </div>
 
-      <div class="nav-links">
-        <a href="#problem">Problem</a>
-        <a href="#solution">Solution</a>
-        <a href="#workflow">Workflow</a>
-        <a href="#interactive">Demo</a>
-        <a href="#evaluation">Evaluation</a>
-        <a href="#impact">Impact</a>
+        <div class="nav-links">
+          <a href="#motivation">Motivation</a>
+          <a href="#method">Methods</a>
+          <a href="#demo">Demo</a>
+          <a href="#evaluation">Evaluation</a>
+          <a href="#impact">Impact</a>
+        </div>
       </div>
     </div>
   </nav>
@@ -617,15 +692,14 @@
     <div class="hero-grid">
       <div>
         <div class="eyebrow">Cognitive Efficiency via Reinforcement Learning</div>
-        <h1>Reducing Information Overload Through <span style="color: var(--accent-2);">Adaptive Forgetting</span></h1>
+        <h1>Mitigating Information Overload Through <span style="color: var(--accent-2);">Adaptive Memory Decay</span></h1>
         <p>
-          This project is a note-centric web browser that acts as an intelligent workspace: instead of forcing users
-          to manage too many tabs and notes, it dynamically decides what should stay active, fade,
-          archive, or be removed, which aims to help users protect limited working memory.
+          This project proposes a note-centric browser that manages tabs, notes, PDFs, and pages like a cognitive system.
+          Instead of keeping everything equally active, it learns what should stay visible, what should fade, and what should move out of the working set.
         </p>
         <div class="cta-row">
-          <a class="btn btn-primary" href="#solution">Explore the Design</a>
-          <a class="btn btn-secondary" href="#interactive">Try the Interaction</a>
+          <a href="#method" class="btn btn-primary">Explore the Methods</a>
+          <a href="#demo" class="btn btn-secondary">Try the Demo</a>
         </div>
       </div>
 
@@ -636,20 +710,22 @@
             <div class="dot"></div>
             <div class="dot"></div>
           </div>
-          <div class="workspace-columns">
-            <div class="mock-panel">
+
+          <div class="workspace-layout">
+            <div class="panel">
               <h4>Working Set</h4>
-              <div class="item"><span>Research Tab</span><span class="pill active">Active</span></div>
-              <div class="item"><span>Main Notes</span><span class="pill active">Boosted</span></div>
-              <div class="item"><span>Quick Annotation</span><span class="pill fade">Fading</span></div>
-              <div class="item"><span>Unused Source</span><span class="pill trim">Trim</span></div>
+              <div class="item"><span>Main Research Tab</span><span class="tag-pill active">Highlight</span></div>
+              <div class="item"><span>Annotated PDF</span><span class="tag-pill active">Pinned</span></div>
+              <div class="item"><span>Quick Note</span><span class="tag-pill dimmed">Deprioritize</span></div>
+              <div class="item"><span>Unused Source</span><span class="tag-pill pruned">Prune</span></div>
             </div>
-            <div class="mock-panel">
+
+            <div class="panel">
               <h4>Library</h4>
-              <div class="item"><span>Archived Article</span><span class="pill archive">Stored</span></div>
-              <div class="item"><span>Past Session Notes</span><span class="pill archive">Stored</span></div>
-              <div class="item"><span>Pinned Source</span><span class="pill active">Pinned</span></div>
-              <div class="item"><span>Restorable Item</span><span class="pill fade">Recover</span></div>
+              <div class="item"><span>Old Literature Tab</span><span class="tag-pill archived">Archive</span></div>
+              <div class="item"><span>Past Session Notes</span><span class="tag-pill archived">Stored</span></div>
+              <div class="item"><span>Recovered Item</span><span class="tag-pill dimmed">Restore</span></div>
+              <div class="item"><span>Priority Source</span><span class="tag-pill active">Keep</span></div>
             </div>
           </div>
         </div>
@@ -657,162 +733,168 @@
     </div>
   </header>
 
-  <section id="problem">
+  <section id="motivation">
     <div class="container">
       <div class="section-heading">
-        <div class="tag">The Problem</div>
-        <h2>Digital workspaces overload working memory</h2>
+        <div class="tag">Motivation</div>
+        <h2>Why we come up with this idea</h2>
         <p>
-          Modern knowledge work happens in environments full of tabs, notes, pages, and interruptions.
-          But attention and working memory are limited, so when too many items compete for focus,
-          users experience higher mental effort, slower completion, and more mistakes.
+         <p>
+Today, most knowledge work happens in digital environments where we have too many tabs, 
+notes, and documents open at the same time. However, human working memory is limited. 
+When too many things compete for attention, people experience cognitive overload, 
+which leads to more task switching, slower progress, and more mistakes. 
+
+Most existing tools try to solve this problem by helping users store and remember more 
+information. This project explores the opposite idea: selective forgetting may be just 
+as important for cognitive efficiency as remembering.
+</p>
         </p>
       </div>
 
       <div class="grid-3">
         <div class="card">
-          <div class="icon">📚</div>
-          <h3>Too Much Information</h3>
-          <p>Research, planning, and studying now happen across many digital sources at once, making overload routine.</p>
+          <h3>Too Many Active Items</h3>
+          <p>Tabs, notes, webpages, and PDFs all compete for limited mental resources.</p>
         </div>
         <div class="card">
-          <div class="icon">🧩</div>
-          <h3>Limited Working Memory</h3>
-          <p>Only a small amount of information can stay cognitively active, so too many open items quickly become costly.</p>
+          <h3>Working Memory Is Limited</h3>
+          <p>Not everything can remain cognitively accessible at the same time.</p>
         </div>
         <div class="card">
-          <div class="icon">⚠️</div>
-          <h3>Current Tools Miss the Gap</h3>
-          <p>Most tools optimize remembering, but very few help users selectively forget irrelevant information at the right time.</p>
+          <h3>Remembering Is Not Enough</h3>
+          <p>Most tools optimize retention, but cognitive efficiency also depends on selective forgetting.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="solution">
+  <section id="method">
     <div class="container">
       <div class="section-heading">
-        <div class="tag">The Core Idea</div>
-        <h2>An intelligent browser that manages memory like a cognitive system</h2>
+        <div class="tag">Methods Used</div>
+        <h2>How the System Will Be Built?</h2>
         <p>
-          Instead of treating every tab or note equally, the interface organizes items into a
-          <strong>working set</strong> for active information and a <strong>library</strong> for archived information.
-          The system then updates priority over time using memory decay and reinforcement learning.
+     This interface consists of a side-panel workspace that organizes all items, including tabs, pages, and notes, into two layers: <strong>working set</strong> and <strong>Library</strong>.
         </p>
+
       </div>
 
       <div class="grid-4">
         <div class="card">
           <div class="icon">🗂️</div>
           <h3>Working Set</h3>
-          <p>Contains the items needed right now—like a digital version of working memory.</p>
+          <p>keep current tasks, represents actively used information (working memory)</p>
         </div>
         <div class="card">
-          <div class="icon">🏛️</div>
+          <div class="icon">📂</div>
           <h3>Library</h3>
-          <p>Stores archived information that remains available but no longer competes for attention.</p>
+          <p>stores archived information (long-term memory)</p>
         </div>
         <div class="card">
-          <div class="icon">📉</div>
-          <h3>Adaptive Decay</h3>
-          <p>Each item loses strength over time unless reinforced by user interaction.</p>
+          <div class="icon">🏷️</div>
+          <h3>Item Blueprint</h3>
+          <p>Each item is represented by a structured blueprint containing attributes(id, type, state, priority, strength, tag_list, last_access_time, action_history_list). </p>
         </div>
         <div class="card">
-          <div class="icon">🤖</div>
-          <h3>RL Personalization</h3>
-          <p>The agent learns from user behavior to improve future keep/fade/archive/trim decisions.</p>
+          <div class="icon">👤</div>
+          <h3>User Control</h3>
+          <p>Users can pin, restore, override suggestions, or turn adaptive mode on and off.</p>
         </div>
       </div>
     </div>
-  </section>
 
-  <section id="workflow">
     <div class="container">
       <div class="section-heading">
-        <div class="tag">How It Works</div>
-        <h2>From interaction to intelligent forgetting</h2>
+        <h3>The methods we applied in this system</h3>
         <p>
-          Each item has attributes such as type, state, strength, access history, and pinned status.
-          These features help the system estimate relevance and decide how that item should be managed.
+          The system combines a base decay model with reinforcement learning so it can both estimate relevance and improve its suggestions through feedback.
         </p>
       </div>
 
-      <div class="process">
-        <div class="step">
+      <div class="timeline">
+        <div class="timeline-step">
           <div class="step-num">01</div>
           <div>
-            <h3>Track Item Features</h3>
+            <h3>Base Decay Model</h3>
             <p>
-              Tabs, notes, and pages are represented as structured items with features like
-              last access time, strength, tags, and interaction history.
+              Applied Ebbinghaus Forgetting Curve. Every item has a strength value that decays over time when it is not used(Figure 1). Clicking, editing, searching,
+              and scrolling reinforce that item and raise its activation again (Figure 2).
             </p>
+
+<div class="figure-row">
+
+<div class="figure">
+  <img class="illustration" src=https://www.growthengineering.co.uk/wp-content/uploads/2016/11/the-forgetting-curve.png alt="Forgetting Curve">
+  <p class="caption">Figure 1</p>
+</div>
+  <div class="figure">
+    <img class="illustration" src="forgetting_curve.png">
+    <p class="caption">Figure 2</p>
+</div>
+</div>
+</div>
           </div>
         </div>
 
-        <div class="step">
+        <div class="timeline-step">
           <div class="step-num">02</div>
           <div>
-            <h3>Apply Memory Decay</h3>
+            <h3>Recommendation</h3>
             <p>
-              Inspired by the forgetting curve, strength decays exponentially when an item is not used.
-              Reopening, editing, searching, or scrolling boosts it again.
+              Based on strength and priority, the system suggests one of four actions:
+              highlight, deprioritize, archive, or prune. Suggestions appear beside tabs as actionable controls rather than disruptive pop-ups.
             </p>
           </div>
         </div>
 
-        <div class="step">
+        <div class="timeline-step">
           <div class="step-num">03</div>
           <div>
-            <h3>Choose an Operation</h3>
+            <h3>Reinforcement Learning</h3>
             <p>
-              Based on updated strength and context, the system decides whether the item should stay active,
-              fade in priority, be archived to the library, or be trimmed with a restore option.
+              The RL agent compares its suggestions with what the user actually does. Accepted suggestions become positive feedback;
+              rejected suggestions or later restores become negative feedback.
             </p>
           </div>
         </div>
 
-        <div class="step">
+        <div class="timeline-step">
           <div class="step-num">04</div>
           <div>
-            <h3>Learn From Feedback</h3>
-            <p>
-              If users reopen a trimmed item, that counts as negative feedback. If system decisions match user behavior,
-              that becomes positive reinforcement for future predictions.
-            </p>
+            <h3>Update Cycles</h3>
+            <p>The system employs two update mechanisms </p>
+              <p><strong>Time-based update:</strong> Runs at fixed intervals during use and performs a global update at night. This process decays the strength of each item over time and generates updated workspace recommendations.</p>
+<p><strong>Post-session update:</strong> Runs after each working session. The system records user actions during the session and updates item states and RL policy based on user feedback.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="interactive">
+  <section id="demo">
     <div class="container">
       <div class="section-heading">
         <div class="tag">Interactive Demo</div>
-        <h2>Simulate memory strength and system decisions</h2>
+        <h2>Simulate how an item decay and reinforce over time</h2>
         <p>
-          This mini interaction makes your presentation feel more alive. Click the buttons to show how an item's
-          strength changes and how the browser responds.
+          This demo shows how item strength affects the browser’s recommendation. It helps explain the idea live during your presentation.
         </p>
       </div>
 
       <div class="interactive-box">
-        <div class="meter-wrap">
+        <div class="interactive-grid">
           <div>
             <h3 style="margin-top: 0;">Item: “Quick Research Tab”</h3>
-            <p class="status-note">
-              Strength represents how cognitively relevant this item currently is.
-            </p>
+            <p class="status-note">Strength represents how relevant this item currently is to the user’s task.</p>
 
             <div class="meter">
               <div class="meter-bar" id="strengthBar"></div>
             </div>
 
-            <p class="status-note">
-              Current strength: <strong id="strengthValue">78</strong>/100
-            </p>
+            <p class="status-note">Current strength: <strong id="strengthValue">74</strong>/100</p>
 
-            <div class="controls">
+            <div class="cta-row" style="margin-top: 14px;">
               <button class="btn btn-primary" onclick="boostStrength()">Reinforce Item</button>
               <button class="btn btn-secondary" onclick="decayStrength()">Apply Decay</button>
               <button class="btn btn-secondary" onclick="resetStrength()">Reset Demo</button>
@@ -822,19 +904,19 @@
           <div>
             <div class="decision-grid">
               <div class="decision">
-                <strong>Keep Active</strong>
+                <strong>Highlight</strong>
                 <span id="keepState">Likely</span>
               </div>
               <div class="decision">
-                <strong>Darken / Hide</strong>
-                <span id="fadeState">Unlikely</span>
+                <strong>Deprioritize</strong>
+                <span id="fadeState">Possible</span>
               </div>
               <div class="decision">
                 <strong>Archive</strong>
                 <span id="archiveState">Unlikely</span>
               </div>
               <div class="decision">
-                <strong>Trim</strong>
+                <strong>Prune</strong>
                 <span id="trimState">Very Unlikely</span>
               </div>
             </div>
@@ -844,21 +926,21 @@
     </div>
   </section>
 
+
   <section id="evaluation">
     <div class="container">
       <div class="section-heading">
         <div class="tag">Evaluation</div>
-        <h2>How success is measured</h2>
+        <h2>How success is tested</h2>
         <p>
-          The system is evaluated by comparing three conditions: a standard browser, a static organization tool,
-          and the full adaptive forgetting system. The goal is to reduce working memory burden while preserving task performance.
+          The system is evaluated by asking whether it reduces the working memory burden of active-item management while preserving task performance.
         </p>
       </div>
 
       <div class="tab-row">
-        <button class="tab-btn active-tab" data-tab="tab1">Experimental Design</button>
-        <button class="tab-btn" data-tab="tab2">Primary Measures</button>
-        <button class="tab-btn" data-tab="tab3">System Accuracy</button>
+        <button class="tab-btn active-tab" data-tab="tab1">Experiment</button>
+        <button class="tab-btn" data-tab="tab2">Measures</button>
+        <button class="tab-btn" data-tab="tab3">Accuracy</button>
       </div>
 
       <div class="tab-panel active-panel" id="tab1">
@@ -868,24 +950,24 @@
               <tr>
                 <th>Condition</th>
                 <th>Description</th>
-                <th>Purpose</th>
+                <th>Why It Matters</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Standard Browser</td>
-                <td>No cognitive support or adaptive organization.</td>
-                <td>Baseline for overload.</td>
+                <td>No adaptive support.</td>
+                <td>Provides a baseline for cognitive overload.</td>
               </tr>
               <tr>
                 <td>Static Organization Tool</td>
-                <td>Manual organization without machine learning.</td>
-                <td>Tests whether organization alone helps.</td>
+                <td>Manual organization without AI.</td>
+                <td>Tests whether improvement comes from organization alone.</td>
               </tr>
               <tr>
                 <td>Full System</td>
-                <td>Adaptive forgetting plus reinforcement learning.</td>
-                <td>Tests the full intelligent intervention.</td>
+                <td>Adaptive forgetting with machine learning.</td>
+                <td>Tests the full contribution of decay plus RL.</td>
               </tr>
             </tbody>
           </table>
@@ -895,19 +977,19 @@
       <div class="tab-panel" id="tab2">
         <div class="grid-3">
           <div class="card">
-            <div class="icon">🧠</div>
+            <div class="icon">📉</div>
             <h3>Cognitive Load</h3>
-            <p>Measured with NASA-TLX, focusing especially on mental demand, effort, and frustration.</p>
+            <p>Measured with NASA-TLX, especially mental demand, effort, and frustration.</p>
           </div>
           <div class="card">
-            <div class="icon">🔁</div>
+            <div class="icon">⏱️</div>
             <h3>Behavioral Indicators</h3>
-            <p>Includes number of active tabs, frequency of tab switching, and task completion time.</p>
+            <p>Tracks active tabs, tab switching frequency, and time to complete tasks.</p>
           </div>
           <div class="card">
-            <div class="icon">📌</div>
-            <h3>Desired Outcome</h3>
-            <p>Users should manage fewer active items and switch less, without losing task performance.</p>
+            <div class="icon">✅</div>
+            <h3>Success Pattern</h3>
+            <p>Users should manage fewer active items and switch less, without losing performance.</p>
           </div>
         </div>
       </div>
@@ -915,19 +997,19 @@
       <div class="tab-panel" id="tab3">
         <div class="grid-3">
           <div class="card">
-            <div class="icon">❌</div>
+            <div class="icon">⚠️</div>
             <h3>Pruning Error Rate</h3>
-            <p>How often important items are incorrectly removed.</p>
+            <p>How often relevant items are incorrectly removed.</p>
           </div>
           <div class="card">
             <div class="icon">♻️</div>
             <h3>Recovery Rate</h3>
-            <p>How frequently users reopen archived or pruned items.</p>
+            <p>How often users reopen archived or pruned items.</p>
           </div>
           <div class="card">
             <div class="icon">🎯</div>
             <h3>Behavioral Alignment</h3>
-            <p>How closely system decisions match real user preferences over time.</p>
+            <p>How well the system’s decisions match the user’s actual preferences over time.</p>
           </div>
         </div>
       </div>
@@ -937,72 +1019,90 @@
   <section id="impact">
     <div class="container">
       <div class="section-heading">
-        <div class="tag">Impact</div>
-        <h2>The key impacts</h2>
+        <div class="tag">Impacts</div>
+        <h2>benefits & downsides</h2>
         <p>
-          This project shifts the focus from “How can technology help us remember more?” to
-          “How can technology help us manage attention better?” The result is a browser that
-          supports cognitive efficiency by deciding what deserves to stay in mind.
+         
+This project contributes to the psychology and computer science streams of the cognitive systems major by leveraging adaptive forgetting from psychology into an algorithmic assistant to optimize the cognitive load of the user. 
+
         </p>
       </div>
 
-      <div class="accordion">
+      <div class="grid-2">
+        <div class="impact-card">
+          <h3>Positive Impact</h3>
+          <p>
+            For research-heavy work, the system could reduce tab piles, lower mental effort, cut down context switching,
+            and make long digital projects feel more manageable. At a broader level, it points toward software that respects attention limits.
+          </p>
+        </div>
+
+        <div class="risk-card">
+          <h3>Risks and Concerns</h3>
+          <p>
+            Fine-grained interaction histories can reveal habits and interests, so privacy is a serious concern.
+            Wrong recommendations can also interrupt flow or feel unpredictable if users do not feel in control.
+          </p>
+        </div>
+      </div>
+
+      <div class="accordion" style="margin-top:20px;">
         <div class="accordion-item">
           <button class="accordion-header">
-            Why is this innovative?
+            Why is perceived control of user important?
             <span>＋</span>
           </button>
           <div class="accordion-content">
             <p>
-              Most productivity systems focus on storage and retrieval. This design treats forgetting
-              as a useful cognitive function and turns it into an adaptive interface strategy.
+              The system should feel like an assistant, not a manager. Users need to be able to disable learning,
+              limit pruning, restore content, and decide how much initiative the program can take.
             </p>
           </div>
         </div>
 
         <div class="accordion-item">
           <button class="accordion-header">
-            Why does reinforcement learning matter?
-            <span>＋</span>
-          </button>
-          <div class="accordion-content">
-            <p>
-              It allows the system to personalize memory management instead of relying on one rigid rule.
-              Over time, the browser learns what this user tends to revisit, ignore, or protect.
-            </p>
-          </div>
-        </div>
-
-        <div class="accordion-item">
-          <button class="accordion-header">
-            Why is this useful for a 5-minute presentation?
+            What safeguards should exist?
             <span>＋</span>
           </button>
           <div class="accordion-content">
             <ul>
-              <li>Clear problem-solution structure</li>
-              <li>Visual metaphor of working set vs library</li>
-              <li>Interactive buttons for live demonstration</li>
-              <li>Professional design that feels like a real product concept</li>
+              <li>Disable learning entirely</li>
+              <li>Archive-only mode without pruning</li>
+              <li>Automation caps for specific contexts</li>
+              <li>Clear restore paths and transparent reasons for actions</li>
             </ul>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header">
+           Our reflections
+            <span>＋</span>
+          </button>
+          <div class="accordion-content">
+            <p>
+              Future versions could explain why a tab was archived or deprioritized, and could potentially expand beyond the browser into broader operating-system support,
+              though that would also increase privacy concerns.
+            </p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <footer class="footer container">
-    <p class="footer-note">
-      Designed as a presentation-ready concept website for an intelligent cognitive workspace.
-    </p>
-  </footer>
+<footer class="footer container">
+  If you have any concerns, email me: <a href="mailto:kaylazheng24@gmail.com">kaylazheng24@gmail.com</a>
+</footer>
 
   <script>
-    let strength = 78;
+    let strength = 74;
+    let browserModeOn = true;
 
     function updateUI() {
       const bar = document.getElementById("strengthBar");
       const value = document.getElementById("strengthValue");
+
       bar.style.width = strength + "%";
       value.textContent = strength;
 
@@ -1011,42 +1111,63 @@
       const archive = document.getElementById("archiveState");
       const trim = document.getElementById("trimState");
 
-      if (strength >= 70) {
+      if (strength >= 75) {
         keep.textContent = "Very Likely";
-        fade.textContent = "Unlikely";
-        archive.textContent = "Very Unlikely";
-        trim.textContent = "Almost Never";
-      } else if (strength >= 45) {
-        keep.textContent = "Possible";
+        fade.textContent = "Possible";
+        archive.textContent = "Unlikely";
+        trim.textContent = "Very Unlikely";
+      } else if (strength >= 50) {
+        keep.textContent = "Likely";
         fade.textContent = "Likely";
         archive.textContent = "Unlikely";
         trim.textContent = "Very Unlikely";
-      } else if (strength >= 20) {
-        keep.textContent = "Low";
+      } else if (strength >= 25) {
+        keep.textContent = "Possible";
         fade.textContent = "Likely";
         archive.textContent = "Possible";
         trim.textContent = "Unlikely";
       } else {
-        keep.textContent = "Very Low";
+        keep.textContent = "Low";
         fade.textContent = "Possible";
         archive.textContent = "Likely";
-        trim.textContent = "Possible";
+        trim.textContent = "Likely";
       }
     }
 
     function boostStrength() {
-      strength = Math.min(100, strength + 16);
+      if (!browserModeOn) return;
+      strength = Math.min(100, strength + 14);
       updateUI();
     }
 
     function decayStrength() {
+      if (!browserModeOn) return;
       strength = Math.max(0, strength - 18);
       updateUI();
     }
 
     function resetStrength() {
-      strength = 78;
+      if (!browserModeOn) return;
+      strength = 74;
       updateUI();
+    }
+
+    function toggleBrowserMode() {
+      const switchEl = document.getElementById("browserSwitch");
+      const label = document.getElementById("toggleLabel");
+      const box = document.querySelector(".interactive-box");
+
+      browserModeOn = switchEl.checked;
+
+      if (browserModeOn) {
+        label.textContent = "Adaptive Mode: ON";
+        box.style.opacity = "1";
+        box.style.filter = "none";
+      } else {
+        label.textContent = "Adaptive Mode: OFF";
+        box.style.opacity = "0.62";
+        box.style.filter = "grayscale(0.2)";
+      }
     }
 
     updateUI();
