@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+
   <style>
     :root {
       --bg: #091224;
@@ -31,16 +32,13 @@
       scroll-behavior: smooth;
     }
 
-    body {
-      margin: 0;
-      font-family: "Inter", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(124,156,255,0.18), transparent 30%),
-        radial-gradient(circle at right top, rgba(99,230,190,0.14), transparent 25%),
-        linear-gradient(180deg, #08101f 0%, #0b1223 45%, #101b33 100%);
-      line-height: 1.6;
-    }
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+}
 
     a {
       color: inherit;
@@ -52,43 +50,44 @@
       margin: 0 auto;
     }
 
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      backdrop-filter: blur(14px);
-      background: rgba(7, 12, 26, 0.78);
-      border-bottom: 1px solid var(--line);
-    }
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: white;
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: none;
+}
 
-    .nav-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      padding: 16px 0;
-      flex-wrap: wrap;
-    }
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 0;
+  flex-wrap: wrap;
+}
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      font-size: 1.05rem;
-    }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: #1f2937;
+}
 
-    .brand-badge {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: var(--shadow);
-      font-size: 1.15rem;
-    }
+.brand-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: #4f46e5;
+  color: white;
+  font-size: 1rem;
+  box-shadow: none;
+}
 
     .top-controls {
       display: flex;
@@ -106,7 +105,7 @@
       border-radius: 999px;
       background: rgba(255,255,255,0.08);
       border: 1px solid var(--line);
-      color: white;
+      color:#111827;
       font-weight: 700;
       font-size: 0.92rem;
     }
@@ -159,16 +158,22 @@
       gap: 16px;
       flex-wrap: wrap;
     }
+.nav-links a {
+  color: #374151;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: 0.2s;
+}
 
-    .nav-links a {
-      color: var(--muted);
-      font-size: 0.95rem;
-      transition: 0.25s ease;
-    }
-
-    .nav-links a:hover {
-      color: white;
-    }
+.nav-links a:hover {
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  color: #3730a3;
+}
 
     .hero {
       padding: 72px 0 48px;
@@ -395,18 +400,18 @@
     .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
-    .card {
-      padding: 22px;
-      transition: transform 0.25s ease, background 0.25s ease;
-    }
+.card {
+  padding: 20px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  transition: 0.2s;
+}
 
-    .card:hover,
-    .impact-card:hover,
-    .risk-card:hover {
-      transform: translateY(-4px);
-      background: linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.06));
-    }
-
+.card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
     .icon {
       width: 48px;
       height: 48px;
@@ -670,7 +675,7 @@
 
       <div class="top-controls">
         <div class="browser-toggle">
-          <span id="toggleLabel">Adaptive Mode: ON</span>
+          <span id="toggleLabel"> Mode: ON</span>
           <label class="switch">
             <input type="checkbox" id="browserSwitch" checked onchange="toggleBrowserMode()">
             <span class="slider"></span>
@@ -691,7 +696,6 @@
   <header class="hero container">
     <div class="hero-grid">
       <div>
-        <div class="eyebrow">Cognitive Efficiency via Reinforcement Learning</div>
         <h1>Mitigating Information Overload Through <span style="color: var(--accent-2);">Adaptive Memory Decay</span></h1>
         <p>
           This project proposes a note-centric browser that manages tabs, notes, PDFs, and pages like a cognitive system.
@@ -829,7 +833,7 @@ as important for cognitive efficiency as remembering.
   <p class="caption">Figure 1</p>
 </div>
   <div class="figure">
-    <img class="illustration" src="forgetting_curve.png">
+    <img class="illustration" src="forgetting_curve.png" alt="Forgetting Curve">
     <p class="caption">Figure 2</p>
 </div>
 </div>
@@ -977,17 +981,14 @@ as important for cognitive efficiency as remembering.
       <div class="tab-panel" id="tab2">
         <div class="grid-3">
           <div class="card">
-            <div class="icon">📉</div>
             <h3>Cognitive Load</h3>
             <p>Measured with NASA-TLX, especially mental demand, effort, and frustration.</p>
           </div>
           <div class="card">
-            <div class="icon">⏱️</div>
             <h3>Behavioral Indicators</h3>
             <p>Tracks active tabs, tab switching frequency, and time to complete tasks.</p>
           </div>
           <div class="card">
-            <div class="icon">✅</div>
             <h3>Success Pattern</h3>
             <p>Users should manage fewer active items and switch less, without losing performance.</p>
           </div>
@@ -997,17 +998,14 @@ as important for cognitive efficiency as remembering.
       <div class="tab-panel" id="tab3">
         <div class="grid-3">
           <div class="card">
-            <div class="icon">⚠️</div>
             <h3>Pruning Error Rate</h3>
             <p>How often relevant items are incorrectly removed.</p>
           </div>
           <div class="card">
-            <div class="icon">♻️</div>
             <h3>Recovery Rate</h3>
             <p>How often users reopen archived or pruned items.</p>
           </div>
           <div class="card">
-            <div class="icon">🎯</div>
             <h3>Behavioral Alignment</h3>
             <p>How well the system’s decisions match the user’s actual preferences over time.</p>
           </div>
@@ -1160,11 +1158,11 @@ This project contributes to the psychology and computer science streams of the c
       browserModeOn = switchEl.checked;
 
       if (browserModeOn) {
-        label.textContent = "Adaptive Mode: ON";
+        label.textContent = "Mode: ON";
         box.style.opacity = "1";
         box.style.filter = "none";
       } else {
-        label.textContent = "Adaptive Mode: OFF";
+        label.textContent = "Mode: OFF";
         box.style.opacity = "0.62";
         box.style.filter = "grayscale(0.2)";
       }
